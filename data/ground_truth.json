@@ -1,0 +1,14 @@
+[
+  {"id": "M01", "category": "billing", "priority": "P2", "needs_human": false},
+  {"id": "M04", "category": "feature_request", "priority": "P3", "needs_human": false},
+  {"id": "M05", "category": "technical_issue", "priority": "P2", "needs_human": true},
+  {"id": "M08", "category": "technical_issue", "priority": "P1", "needs_human": false},
+  {"id": "M10", "category": "billing", "priority": "P1", "needs_human": false},
+  {"id": "M13", "category": "spam_or_abuse", "priority": "P3", "needs_human": true},
+  {"id": "M14", "category": "shipping", "priority": "P2", "needs_human": true},
+  {"id": "M15", "category": "other", "priority": "P3", "needs_human": true},
+  {"id": "M19", "category": "account_access", "priority": "P0", "needs_human": true},
+  {"id": "M20", "category": "billing", "priority": "P0", "needs_human": true},
+  {"id": "M26", "category": "shipping", "priority": "P2", "needs_human": false},
+  {"id": "M33", "category": "technical_issue", "priority": "P0", "needs_human": true}
+]

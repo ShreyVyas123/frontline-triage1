@@ -1,0 +1,9 @@
+{
+  "labelled": 12,
+  "category_acc": 1.0,
+  "priority_acc": 0.9166666666666666,
+  "priority_within_one": 1.0,
+  "needs_human_acc": 0.9166666666666666,
+  "all_correct": 0.8333333333333334,
+  "dangerous_misses": []
+}
