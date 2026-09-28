@@ -1,0 +1,26 @@
+[
+  {
+    "id": "EMAIL-0001",
+    "created_at": "2026-09-28T17:38:02",
+    "to": "shreyv2912@gmail.com",
+    "subject": "FRONTLINE support response",
+    "body": "Refund requests can be reviewed according to the applicable refund policy. Please provide the relevant order or transaction information if a human review is required.",
+    "category": "refund",
+    "priority": "P2",
+    "knowledge_base_article": "KB004",
+    "status": "simulated",
+    "original_message": "i accidentally paid for two months , can i get a refund ?"
+  },
+  {
+    "id": "EMAIL-0002",
+    "created_at": "2026-09-28T17:49:22",
+    "to": "shreyv2912@gmail.com",
+    "subject": "FRONTLINE support response",
+    "body": "Refund requests can be reviewed according to the applicable refund policy. Please provide the relevant order or transaction information if a human review is required.",
+    "category": "refund",
+    "priority": "P2",
+    "knowledge_base_article": "KB004",
+    "status": "simulated",
+    "original_message": "i accidentally paid double subscription , can i get a refund ?"
+  }
+]

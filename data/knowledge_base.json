@@ -1,0 +1,116 @@
+{
+  "articles": [
+    {
+      "id": "KB001",
+      "category": "billing",
+      "title": "Billing and duplicate charge",
+      "keywords": [
+        "charged",
+        "charge",
+        "billing",
+        "payment",
+        "invoice",
+        "charged twice",
+        "duplicate charge"
+      ],
+      "answer": "Your billing issue has been identified. Please review your billing history and payment details. If a duplicate or incorrect charge remains, the billing team will review the transaction."
+    },
+    {
+      "id": "KB002",
+      "category": "account_access",
+      "title": "Password and account access",
+      "keywords": [
+        "password",
+        "login",
+        "log in",
+        "sign in",
+        "account access",
+        "locked account"
+      ],
+      "answer": "For account access problems, use the password reset option on the sign-in page. If you still cannot access your account, the account team will need to review it."
+    },
+    {
+      "id": "KB003",
+      "category": "shipping",
+      "title": "Shipping and delivery",
+      "keywords": [
+        "shipping",
+        "delivery",
+        "deliver",
+        "parcel",
+        "package",
+        "order arrived",
+        "delivery delayed"
+      ],
+      "answer": "For delivery issues, please check the order tracking information associated with your purchase. If the package is missing or damaged, the shipping team can review the delivery."
+    },
+    {
+      "id": "KB004",
+      "category": "refund",
+      "title": "Refund request",
+      "keywords": [
+        "refund",
+        "money back",
+        "return",
+        "cancel order",
+        "cancellation"
+      ],
+      "answer": "Refund requests can be reviewed according to the applicable refund policy. Please provide the relevant order or transaction information if a human review is required."
+    },
+    {
+      "id": "KB005",
+      "category": "technical_issue",
+      "title": "Basic technical troubleshooting",
+      "keywords": [
+        "not working",
+        "error",
+        "bug",
+        "crash",
+        "broken",
+        "technical",
+        "app problem"
+      ],
+      "answer": "Please restart the application and check that you are using the latest version. If the problem continues, the technical support team can investigate the issue."
+    },
+    {
+      "id": "KB006",
+      "category": "general_inquiry",
+      "title": "General product information",
+      "keywords": [
+        "what is",
+        "how does",
+        "information",
+        "pricing",
+        "price",
+        "features"
+      ],
+      "answer": "Please refer to the approved product information and pricing provided by the service. If your question requires information not covered by the approved knowledge base, a support representative should assist you."
+    },
+    {
+      "id": "KB007",
+      "category": "feature_request",
+      "title": "Feature request",
+      "keywords": [
+        "feature",
+        "suggestion",
+        "add",
+        "would like",
+        "request"
+      ],
+      "answer": "Thank you for the feature suggestion. Your request can be recorded as product feedback for consideration by the product team."
+    },
+    {
+      "id": "KB008",
+      "category": "complaint",
+      "title": "General complaint acknowledgement",
+      "keywords": [
+        "complaint",
+        "unhappy",
+        "bad service",
+        "poor service",
+        "disappointed"
+      ],
+      "answer": "Your complaint has been recorded. If the issue requires investigation or contains details outside the approved knowledge base, a support representative will review it."
+    }
+  ]
+}

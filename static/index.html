@@ -1,0 +1,858 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>FRONTLINE - AI Support Triage</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f3f5f8;
+            color: #17202a;
+        }
+
+        header {
+            background: #111827;
+            color: white;
+            padding: 18px 32px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 25px;
+            font-weight: 800;
+            letter-spacing: 1px;
+        }
+
+        .status {
+            font-size: 13px;
+            background: #1f2937;
+            padding: 8px 13px;
+            border-radius: 20px;
+        }
+
+        .status-dot {
+            display: inline-block;
+            width: 9px;
+            height: 9px;
+            border-radius: 50%;
+            background: #22c55e;
+            margin-right: 6px;
+        }
+
+        .container {
+            max-width: 1250px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        .hero {
+            margin-bottom: 25px;
+        }
+
+        .hero h1 {
+            margin-bottom: 8px;
+        }
+
+        .hero p {
+            color: #64748b;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 22px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 14px;
+            padding: 22px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.07);
+        }
+
+        .card h2 {
+            margin-top: 0;
+        }
+
+        textarea {
+            width: 100%;
+            min-height: 180px;
+            resize: vertical;
+            padding: 15px;
+            border: 1px solid #cbd5e1;
+            border-radius: 10px;
+            font-size: 15px;
+            outline: none;
+        }
+
+        textarea:focus,
+        input:focus {
+            border-color: #2563eb;
+        }
+
+        input {
+            width: 100%;
+            padding: 13px;
+            margin-bottom: 15px;
+            border: 1px solid #cbd5e1;
+            border-radius: 9px;
+            font-size: 15px;
+        }
+
+        button {
+            border: 0;
+            padding: 13px 20px;
+            border-radius: 9px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .primary {
+            background: #2563eb;
+            color: white;
+            width: 100%;
+            margin-top: 14px;
+        }
+
+        .primary:hover {
+            background: #1d4ed8;
+        }
+
+        .secondary {
+            background: #e2e8f0;
+            color: #17202a;
+        }
+
+        .result {
+            display: none;
+            margin-top: 25px;
+        }
+
+        .result.show {
+            display: block;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 6px 10px;
+            border-radius: 7px;
+            font-weight: bold;
+            font-size: 13px;
+            margin-right: 6px;
+        }
+
+        .P0 {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .P1 {
+            background: #ffedd5;
+            color: #9a3412;
+        }
+
+        .P2 {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .P3 {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .human {
+            background: #fff1f2;
+            border: 2px solid #ef4444;
+            padding: 18px;
+            border-radius: 12px;
+            margin-top: 18px;
+        }
+
+        .automatic {
+            background: #f0fdf4;
+            border: 2px solid #22c55e;
+            padding: 18px;
+            border-radius: 12px;
+            margin-top: 18px;
+        }
+
+        .field {
+            margin: 10px 0;
+        }
+
+        .field strong {
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .small {
+            font-size: 13px;
+            color: #64748b;
+        }
+
+        .loading {
+            display: none;
+            margin-top: 12px;
+            color: #2563eb;
+            font-weight: bold;
+        }
+
+        .dashboard {
+            margin-top: 22px;
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .stat {
+            padding: 18px;
+            background: #f8fafc;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 27px;
+            font-weight: 800;
+        }
+
+        .popup {
+            display: none;
+            position: fixed;
+            top: 25px;
+            right: 25px;
+            width: 410px;
+            max-width: calc(100vw - 40px);
+            background: white;
+            border-left: 7px solid #dc2626;
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.25);
+            border-radius: 12px;
+            padding: 20px;
+            z-index: 9999;
+        }
+
+        .popup.show {
+            display: block;
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(450px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        .popup-title {
+            font-size: 18px;
+            font-weight: 800;
+            color: #991b1b;
+        }
+
+        .popup-close {
+            float: right;
+            background: #fee2e2;
+            color: #991b1b;
+            padding: 6px 9px;
+        }
+
+        .email-preview {
+            margin-top: 15px;
+            background: #f8fafc;
+            padding: 15px;
+            border-radius: 9px;
+            white-space: pre-wrap;
+        }
+
+        @media (max-width: 850px) {
+
+            .grid {
+                grid-template-columns: 1fr;
+            }
+
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+
+            header {
+                padding: 15px;
+            }
+
+            .container {
+                margin-top: 20px;
+            }
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+<header>
+
+    <div class="logo">
+        FRONTLINE
+    </div>
+
+    <div class="status">
+        <span class="status-dot"></span>
+        AI TRIAGE ONLINE
+    </div>
+
+</header>
+
+
+<div class="container">
+
+    <div class="hero">
+
+        <h1>Customer Support Triage</h1>
+
+        <p>
+            FRONTLINE analyses customer messages, determines priority,
+            and routes the issue to automation or human support.
+        </p>
+
+    </div>
+
+
+    <div class="grid">
+
+        <!-- Customer side -->
+
+        <div class="card">
+
+            <h2>Customer Complaint</h2>
+
+            <p class="small">
+                Enter a customer message to test the FRONTLINE engine.
+            </p>
+
+            <label>
+                Customer email
+            </label>
+
+            <input
+                id="email"
+                type="email"
+                value="customer@example.com"
+            >
+
+            <label>
+                Message
+            </label>
+
+            <textarea
+                id="message"
+                placeholder="Example: I was charged twice for my subscription..."
+            ></textarea>
+
+            <button
+                class="primary"
+                onclick="submitMessage()"
+            >
+                Analyse Complaint
+            </button>
+
+            <div
+                id="loading"
+                class="loading"
+            >
+                FRONTLINE is analysing the message...
+            </div>
+
+        </div>
+
+
+        <!-- Result side -->
+
+        <div class="card">
+
+            <h2>FRONTLINE Decision</h2>
+
+            <div
+                id="emptyResult"
+                class="small"
+            >
+                The AI decision will appear here.
+            </div>
+
+            <div
+                id="result"
+                class="result"
+            >
+
+                <div id="badges"></div>
+
+                <div class="field">
+                    <strong>Category</strong>
+                    <span id="category"></span>
+                </div>
+
+                <div class="field">
+                    <strong>Summary</strong>
+                    <span id="summary"></span>
+                </div>
+
+                <div class="field">
+                    <strong>Suggested Action</strong>
+                    <span id="action"></span>
+                </div>
+
+                <div class="field">
+                    <strong>Confidence</strong>
+                    <span id="confidence"></span>
+                </div>
+
+                <div class="field">
+                    <strong>Department</strong>
+                    <span id="department"></span>
+                </div>
+
+                <div id="pathResult"></div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- Dashboard -->
+
+    <div class="card dashboard">
+
+        <h2>Support Operations</h2>
+
+        <div class="dashboard-grid">
+
+            <div class="stat">
+
+                <div
+                    id="alertCount"
+                    class="stat-number"
+                >
+                    0
+                </div>
+
+                <div>
+                    Human Alerts
+                </div>
+
+            </div>
+
+            <div class="stat">
+
+                <div
+                    id="emailCount"
+                    class="stat-number"
+                >
+                    0
+                </div>
+
+                <div>
+                    Automated Responses
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- Human alert popup -->
+
+<div
+    id="humanPopup"
+    class="popup"
+>
+
+    <button
+        class="popup-close"
+        onclick="closePopup()"
+    >
+        X
+    </button>
+
+    <div class="popup-title">
+        🚨 HUMAN ACTION REQUIRED
+    </div>
+
+    <p>
+        FRONTLINE has detected an issue that should not be
+        handled automatically.
+    </p>
+
+    <div id="popupDetails"></div>
+
+</div>
+
+
+<script>
+
+async function submitMessage() {
+
+    const message =
+        document.getElementById("message").value.trim();
+
+    const email =
+        document.getElementById("email").value.trim();
+
+    if (!message) {
+
+        alert("Please enter a customer message.");
+
+        return;
+    }
+
+
+    const loading =
+        document.getElementById("loading");
+
+    loading.style.display = "block";
+
+
+    try {
+
+        const response = await fetch(
+            "/api/triage",
+            {
+                method: "POST",
+
+                headers: {
+                    "Content-Type": "application/json"
+                },
+
+                body: JSON.stringify({
+                    message: message,
+                    email: email || "demo@example.com"
+                })
+            }
+        );
+
+
+        const data = await response.json();
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                data.detail || "Request failed."
+            );
+
+        }
+
+
+        displayResult(data);
+
+        updateDashboard();
+
+    }
+
+    catch (error) {
+
+        alert(
+            "FRONTLINE error: " +
+            error.message
+        );
+
+    }
+
+    finally {
+
+        loading.style.display = "none";
+
+    }
+
+}
+
+
+function displayResult(data) {
+
+    const decision = data.triage;
+
+
+    document.getElementById("emptyResult")
+        .style.display = "none";
+
+
+    document.getElementById("result")
+        .classList.add("show");
+
+
+    document.getElementById("category")
+        .textContent = decision.category;
+
+
+    document.getElementById("summary")
+        .textContent = decision.summary;
+
+
+    document.getElementById("action")
+        .textContent = decision.suggested_action;
+
+
+    document.getElementById("confidence")
+        .textContent =
+            Math.round(decision.confidence * 100) + "%";
+
+
+    document.getElementById("department")
+        .textContent = data.department;
+
+
+    document.getElementById("badges")
+        .innerHTML = `
+            <span class="badge ${decision.priority}">
+                ${decision.priority}
+            </span>
+
+            <span class="badge ${
+                decision.needs_human
+                    ? "P1"
+                    : "P3"
+            }">
+                ${
+                    decision.needs_human
+                        ? "HUMAN REQUIRED"
+                        : "AUTOMATED"
+                }
+            </span>
+        `;
+
+
+    const pathResult =
+        document.getElementById("pathResult");
+
+
+    if (data.path === "human") {
+
+        pathResult.innerHTML = `
+            <div class="human">
+
+                <strong>
+                    Human support required
+                </strong>
+
+                <p>
+                    ${escapeHtml(
+                        data.customer_response
+                    )}
+                </p>
+
+                <p>
+                    <strong>Reason:</strong>
+                    ${escapeHtml(
+                        data.human_alert.reason
+                    )}
+                </p>
+
+                <p>
+                    <strong>Department:</strong>
+                    ${escapeHtml(
+                        data.human_alert.department
+                    )}
+                </p>
+
+            </div>
+        `;
+
+
+        showHumanPopup(data);
+
+    }
+
+    else {
+
+        pathResult.innerHTML = `
+            <div class="automatic">
+
+                <strong>
+                    ✓ Automated response prepared
+                </strong>
+
+                <p>
+                    ${escapeHtml(
+                        data.customer_response
+                    )}
+                </p>
+
+                <div class="email-preview">
+
+                    <strong>
+                        Simulated Email
+                    </strong>
+
+                    <br><br>
+
+                    <strong>
+                        To:
+                    </strong>
+
+                    ${escapeHtml(
+                        data.email.to
+                    )}
+
+                    <br><br>
+
+                    ${escapeHtml(
+                        data.email.body
+                    )}
+
+                </div>
+
+            </div>
+        `;
+
+    }
+
+}
+
+
+function showHumanPopup(data) {
+
+    const popup =
+        document.getElementById("humanPopup");
+
+
+    const details =
+        document.getElementById("popupDetails");
+
+
+    details.innerHTML = `
+
+        <p>
+            <strong>Priority:</strong>
+            ${escapeHtml(
+                data.triage.priority
+            )}
+        </p>
+
+        <p>
+            <strong>Department:</strong>
+            ${escapeHtml(
+                data.department
+            )}
+        </p>
+
+        <p>
+            <strong>Customer:</strong>
+            ${escapeHtml(
+                data.human_alert.customer_email
+            )}
+        </p>
+
+        <p>
+            <strong>Reason:</strong>
+            ${escapeHtml(
+                data.human_alert.reason
+            )}
+        </p>
+
+    `;
+
+
+    popup.classList.add("show");
+
+}
+
+
+function closePopup() {
+
+    document
+        .getElementById("humanPopup")
+        .classList.remove("show");
+
+}
+
+
+async function updateDashboard() {
+
+    try {
+
+        const alertsResponse =
+            await fetch("/api/alerts");
+
+        const alerts =
+            await alertsResponse.json();
+
+
+        const outboxResponse =
+            await fetch("/api/outbox");
+
+        const outbox =
+            await outboxResponse.json();
+
+
+        document.getElementById("alertCount")
+            .textContent = alerts.length;
+
+
+        document.getElementById("emailCount")
+            .textContent = outbox.length;
+
+    }
+
+    catch (error) {
+
+        console.log(
+            "Dashboard update failed:",
+            error
+        );
+
+    }
+
+}
+
+
+function escapeHtml(value) {
+
+    const div =
+        document.createElement("div");
+
+    div.textContent =
+        value == null ? "" : String(value);
+
+    return div.innerHTML;
+
+}
+
+
+updateDashboard();
+
+</script>
+
+</body>
+
+</html>
